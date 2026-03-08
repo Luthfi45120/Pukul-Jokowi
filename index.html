@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Pukul - Lampiaskan Emosimu!</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px 20px;
+            user-select: none; /* Mencegah teks terblok saat klik cepat */
+        }
+        h1 { font-size: 2rem; color: #ff4747; }
+        
+        .score-board {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #ffd700;
+        }
+
+        .character-container {
+            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            /* Efek saat diklik agar terasa seperti dipukul */
+            transition: transform 0.05s ease-in-out; 
+        }
+
+        .character-container:active {
+            transform: scale(0.95);
+        }
+
+        .character-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(255, 71, 71, 0.5);
+        }
+        
+        .info { margin-top: 30px; font-size: 1.2rem; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <h1>🥊 PUKUL TARGET 🥊</h1>
+    <p>Lampiaskan emosimu dengan klik gambar di bawah!</p>
+
+    <div class="score-board" id="score">0</div>
+
+    <div class="character-container" id="hitArea">
+        <img src="https://via.placeholder.com/300/555555/FFFFFF?text=Wajah+Normal" id="character" class="character-img" alt="Target">
+    </div>
+
+    <div class="info">
+        Total Pukulan Global: <span id="global-score">Memuat...</span>
+    </div>
+
+    <script>
+        // Inisialisasi variabel
+        let score = 0;
+        const hitArea = document.getElementById('hitArea');
+        const scoreDisplay = document.getElementById('score');
+        const characterImg = document.getElementById('character');
+        // const hitSound = document.getElementById('hitSound');
+
+        // Siapkan 2 gambar (Normal dan Saat Dipukul)
+        const imgNormal = 'https://via.placeholder.com/300/555555/FFFFFF?text=Wajah+Normal';
+        const imgHit = 'https://via.placeholder.com/300/FF0000/FFFFFF?text=DIPUKUL!';
+
+        // Event saat Mouse/Jari ditekan ke layar
+        hitArea.addEventListener('pointerdown', (e) => {
+            e.preventDefault(); // Mencegah zoom/scroll di HP
+            
+            score++;
+            scoreDisplay.textContent = score;
+            
+            // Ganti ke gambar sakit/dipukul
+            characterImg.src = imgHit;
+            
+            // Putar efek suara (hapus tanda komentar jika file mp3 sudah ada)
+            // hitSound.currentTime = 0;
+            // hitSound.play();
+
+            // DI SINI TEMPAT MENGIRIM DATA KE DATABASE
+            // sendClickToDatabase();
+        });
+
+        // Event saat Mouse/Jari dilepas dari layar
+        hitArea.addEventListener('pointerup', () => {
+            characterImg.src = imgNormal; // Kembali ke gambar normal
+        });
+
+        // Event saat kursor keluar dari area gambar
+        hitArea.addEventListener('pointerleave', () => {
+            characterImg.src = imgNormal;
+        });
+    </script>
+
+</body>
+</html>
